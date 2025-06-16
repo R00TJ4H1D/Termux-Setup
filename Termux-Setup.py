@@ -5,45 +5,46 @@ import time
 import os
 import sys
 
-# Voice announcement using termux-tts-speak
-def speak(text):
+# Function to speak a message using termux-tts-speak
+def speak(message):
     try:
-        subprocess.run(["termux-tts-speak", text], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run(["termux-tts-speak", message], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except:
         pass
 
-# Clear screen
+# Clear the screen
 def clear_screen():
     os.system("clear")
 
-# Show ASCII banner once with gradient color
+# Display the ASCII banner only once with multi-color
 def show_ascii_art_once():
     fig = Figlet(font="slant")
     ascii_art = fig.renderText("T-Setup")
     gradient = ['red', 'yellow', 'green', 'cyan', 'blue', 'magenta']
-    for i, line in enumerate(ascii_art.splitlines()):
-        color = gradient[i % len(gradient)]
-        print(colored(line, color))
+    lines = ascii_art.splitlines()
+    for i, line in enumerate(lines):
+        print(colored(line, gradient[i % len(gradient)]))
 
 # Show banner
 def show_banner():
     clear_screen()
     show_ascii_art_once()
-    print(colored("=" * 60, 'cyan'))
-    print(colored("Termux Professional Setup Tool".center(60), 'yellow'))
-    print(colored("Created by RootJahid".center(60), 'magenta'))
-    print(colored("=" * 60, 'cyan'))
+    print(colored("❯❯ " + "=" * 60, 'cyan'))
+    print(colored("❯❯ TERMUX PROFESSIONAL SETUP TOOL".center(60), 'yellow'))
+    print(colored("❯❯ CREATED BY ROOTJAHID".center(60), 'magenta'))
+    print(colored("❯❯ " + "=" * 60, 'cyan'))
     print("\n")
 
-# Install single package with announcement and styling
+# Install a single package with voice and styled output
 def install_single_package(pkg_name):
-    speak(f"Installing {pkg_name}")
-    print(colored(f"\n📦 Installing: {pkg_name}", 'green'))
-    print(colored("=" * (12 + len(pkg_name)), 'cyan'))
-    time.sleep(1)
-    os.system(f"pkg install {pkg_name} -y > /dev/null 2>&1")
-    print(colored(f"✅ {pkg_name} installed successfully.\n", 'green'))
-    speak(f"{pkg_name} installed successfully")
+    message = f"INSTALLING PACKAGE {pkg_name.upper()}"
+    speak(message)
+    print(colored(f"❯❯ 📦 INSTALLING: {pkg_name.upper()}", 'green'))
+    print(colored("❯❯ " + "=" * (12 + len(pkg_name)), 'cyan'))
+    time.sleep(0.5)
+    os.system(f"pkg install {pkg_name} -y")
+    print(colored(f"❯❯ ✅ {pkg_name.upper()} INSTALLED SUCCESSFULLY.\n", 'green'))
+    speak(f"{pkg_name.upper()} INSTALLED SUCCESSFULLY")
     time.sleep(0.5)
 
 # Install all packages one by one
@@ -60,56 +61,56 @@ def install_packages():
         "busybox", "libxml2", "libxslt", "binutils", "gdb", "fftw"
     ]
 
-    speak("Updating packages")
-    print(colored("\n🔄 Updating packages...", 'cyan'))
-    os.system("pkg update -y > /dev/null 2>&1")
+    speak("UPDATING PACKAGE LIST")
+    print(colored("\n❯❯ 🔄 UPDATING PACKAGE LIST...", 'cyan'))
+    os.system("pkg update -y")
 
-    speak("Upgrading packages")
-    print(colored("\n⏫ Upgrading packages...", 'cyan'))
-    os.system("pkg upgrade -y > /dev/null 2>&1")
+    speak("UPGRADING PACKAGES")
+    print(colored("\n❯❯ ⏫ UPGRADING INSTALLED PACKAGES...", 'cyan'))
+    os.system("pkg upgrade -y")
 
     for pkg in packages:
         install_single_package(pkg)
 
-    print(colored("\n🎉 All packages installed successfully!\n", 'yellow'))
-    speak("All packages installed successfully")
+    speak("ALL PACKAGES INSTALLED SUCCESSFULLY")
+    print(colored("\n❯❯ 🎉 ALL PACKAGES INSTALLED SUCCESSFULLY!", 'yellow'))
 
-# Install required Python modules
+# Install Python libraries
 def install_python_modules():
-    speak("Installing required python packages")
-    print(colored("\n🐍 Installing Python packages...\n", 'magenta'))
+    speak("INSTALLING PYTHON LIBRARIES")
+    print(colored("\n❯❯ 🐍 INSTALLING PYTHON LIBRARIES...", 'magenta'))
     os.system("pip install --upgrade pip")
-    os.system("pip install requests bs4 colorama termcolor pyfiglet tqdm > /dev/null 2>&1")
-    speak("Python packages installed")
+    os.system("pip install requests bs4 colorama termcolor pyfiglet tqdm")
+    speak("PYTHON LIBRARIES INSTALLED")
 
-# Main menu
+# Menu
 def main_menu():
     while True:
         show_banner()
-        print(colored("📋 Choose an option:\n", 'yellow'))
-        print(colored("1. Set-up My Termux", 'green'))
-        print(colored("2. Exit", 'red'))
+        print(colored("❯❯ 📋 CHOOSE AN OPTION:\n", 'yellow'))
+        print(colored("❯❯ 1. SET-UP MY TERMUX", 'green'))
+        print(colored("❯❯ 2. EXIT", 'red'))
 
-        choice = input(colored("\nEnter your choice (1-2): ", 'cyan'))
+        choice = input(colored("\n❯❯ ENTER YOUR CHOICE (1-2): ", 'cyan'))
 
         if choice == '1':
-            speak("Starting Termux setup")
-            print(colored("\n🚀 Starting Termux setup...\n", 'magenta'))
+            speak("STARTING TERMUX SETUP")
+            print(colored("\n❯❯ 🚀 STARTING TERMUX SETUP...\n", 'magenta'))
             install_packages()
             install_python_modules()
-            input(colored("\nPress Enter to return to main menu...", 'yellow'))
+            input(colored("\n❯❯ PRESS ENTER TO RETURN TO MAIN MENU...", 'yellow'))
         elif choice == '2':
-            speak("Thanks for using the tool. Goodbye")
-            print(colored("\n👋 Thanks for using the tool. Goodbye!\n", 'green'))
+            speak("THANKS FOR USING THE TOOL. GOODBYE")
+            print(colored("\n❯❯ 👋 THANKS FOR USING THE TOOL. GOODBYE!\n", 'green'))
             break
         else:
-            print(colored("\n❌ Invalid choice! Try again.", 'red'))
+            print(colored("❯❯ ❌ INVALID CHOICE! TRY AGAIN.", 'red'))
             time.sleep(1)
 
-# Initial dependency check and run
+# Run
 def main():
     clear_screen()
-    speak("Welcome to Root Jahid Termux Setup Tool")
+    speak("WELCOME TO ROOT JAHID TERMUX SETUP TOOL")
     main_menu()
 
 if __name__ == "__main__":
